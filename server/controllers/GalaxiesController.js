@@ -10,7 +10,20 @@ export class GalaxiesController extends BaseController {
         super('api/galaxies')
         this.router
         .get('', this.getGalaxies)
+        .post('', this.createGalaxy)
     }
+
+
+    async createGalaxy(req, res, next) {
+        try {
+            let galaxyData = req.body
+            let galaxy = await galaxiesService.createGalaxy(galaxyData)
+            return res.send(galaxy)
+        } catch (error) {
+            next(error)
+        }
+    }
+
 
     async getGalaxies(req, res, next) {
         try {
