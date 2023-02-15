@@ -1,4 +1,5 @@
 import { galaxiesService } from "../services/GalaxiesService.js";
+import { galaxyPlanetsService } from "../services/GalaxyPlanetsService.js";
 import BaseController from "../utils/BaseController.js";
 
 
@@ -11,6 +12,18 @@ export class GalaxiesController extends BaseController {
         this.router
         .get('', this.getGalaxies)
         .post('', this.createGalaxy)
+        .get('/:galaxyId/planets', this.getGalaxyPlanets)
+    }
+
+
+    async getGalaxyPlanets(req, res, next) {
+        try {
+            const galaxyId = req.params.galaxyId
+            const galaxyPlanets = await galaxyPlanetsService.getPlanetsByGalaxyId(galaxyId)
+            return res.send(galaxyPlanets)
+        } catch (error) {
+            next(error)
+        }
     }
 
 
